@@ -1,7 +1,7 @@
-import '../styles/canvas.css'
+import '../../styles/pixel-painter/canvas.css'
 import React, { useEffect } from 'react'
-import { useAppDispatch, useAppSelector } from '../hooks'
-import { setClear } from '../reducers/canvas'
+import { useAppDispatch, useAppSelector } from '../../hooks'
+import { setClear } from '../../reducers/pixel-painter/canvas'
 
 interface CanvasProps {
   canvasColumnCount: number

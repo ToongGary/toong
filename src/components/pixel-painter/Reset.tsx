@@ -1,6 +1,6 @@
-import '../styles/reset.css'
-import { useAppDispatch } from '../hooks'
-import { setClear } from '../reducers/canvas'
+import '../../styles/pixel-painter/reset.css'
+import { useAppDispatch } from '../../hooks'
+import { setClear } from '../../reducers/pixel-painter/canvas'
 
 function Reset() {
   const dispatch = useAppDispatch()

@@ -1,5 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit'
-import canvasReducer from './reducers/canvas'
+import canvasReducer from './reducers/pixel-painter/canvas'
 
 export const store = configureStore({
   reducer: {

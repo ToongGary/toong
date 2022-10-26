@@ -1,6 +1,6 @@
-import '../styles/color-palette.css'
-import { useAppDispatch } from '../hooks'
-import { setColor } from '../reducers/canvas'
+import '../../styles/pixel-painter/color-palette.css'
+import { useAppDispatch } from '../../hooks'
+import { setColor } from '../../reducers/pixel-painter/canvas'
 
 function ColorPalette() {
   const dispatch = useAppDispatch()
