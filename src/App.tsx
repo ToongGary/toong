@@ -1,8 +1,8 @@
-import Canvas from './components/pixel-painter/Canvas'
-import ColorPalette from './components/pixel-painter/ColorPalette'
-import ColorPicker from './components/pixel-painter/ColorPicker'
-import Reset from './components/pixel-painter/Reset'
-import './styles/common.css'
+import Canvas from '@components/pixel-painter/Canvas'
+import ColorPalette from '@components/pixel-painter/ColorPalette'
+import ColorPicker from '@components/pixel-painter/ColorPicker'
+import Reset from '@components/pixel-painter/Reset'
+import '@styles/common.css'
 
 function App() {
   return (

@@ -1,7 +1,7 @@
-import '../../styles/pixel-painter/color-picker.css'
+import '@styles/pixel-painter/color-picker.css'
 import React from 'react'
-import { useAppDispatch, useAppSelector } from '../../hooks'
-import { setColor } from '../../reducers/pixel-painter/canvas'
+import { useAppDispatch, useAppSelector } from '@/hooks'
+import { setColor } from '@reducers/pixel-painter/canvas'
 
 function ColorPicker() {
   const currentColor = useAppSelector((state) => state.canvas.color)
