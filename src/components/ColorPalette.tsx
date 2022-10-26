@@ -1,6 +1,6 @@
 import '../styles/color-palette.css'
 import { useAppDispatch } from '../hooks'
-import { setColor } from '../reducers/color'
+import { setColor } from '../reducers/canvas'
 
 function ColorPalette() {
   const dispatch = useAppDispatch()

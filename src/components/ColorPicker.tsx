@@ -1,10 +1,10 @@
 import '../styles/color-picker.css'
 import React from 'react'
 import { useAppDispatch, useAppSelector } from '../hooks'
-import { setColor } from '../reducers/color'
+import { setColor } from '../reducers/canvas'
 
 function ColorPicker() {
-  const currentColor = useAppSelector((state) => state.color.color)
+  const currentColor = useAppSelector((state) => state.canvas.color)
   const dispatch = useAppDispatch()
   const style = {
     backgroundColor: currentColor

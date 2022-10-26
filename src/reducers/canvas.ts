@@ -3,10 +3,12 @@ import type { PayloadAction } from '@reduxjs/toolkit'
 
 export interface CanvasState {
   clear: boolean
+  color: string
 }
 
 const initialState: CanvasState = {
-  clear: false
+  clear: false,
+  color: '#000000'
 }
 
 export const canvasSlice = createSlice({
@@ -15,11 +17,14 @@ export const canvasSlice = createSlice({
   reducers: {
     setClear: (state, action: PayloadAction<boolean>) => {
       state.clear = action.payload
+    },
+    setColor: (state, action: PayloadAction<string>) => {
+      state.color = action.payload
     }
   }
 })
 
 // Action creators are generated for each case reducer function
-export const { setClear } = canvasSlice.actions
+export const { setClear, setColor } = canvasSlice.actions
 
 export default canvasSlice.reducer

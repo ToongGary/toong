@@ -89,7 +89,7 @@ function DrawCanvas({
   canvasCellHeight
 }: CanvasProps) {
   const clear = useAppSelector((state) => state.canvas.clear)
-  const currentColor = useAppSelector((state) => state.color.color)
+  const currentColor = useAppSelector((state) => state.canvas.color)
   const dispatch = useAppDispatch()
   const canvasWidth = canvasCellWidth * canvasColumnCount
   const canvasHeight = canvasCellHeight * canvasRowCount
