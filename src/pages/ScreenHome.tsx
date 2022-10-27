@@ -1,7 +1,7 @@
 import React from 'react'
 import { BrowserRouter, Routes, Route, Navigation } from 'react-router-dom'
-import { OneHome } from '@components/pixel-painter/ToongHome'
-import { TwoHome } from '@components/pixel-painter/GariHome'
+import { OneHome } from '@/pages/ToongHome'
+import { TwoHome } from '@/pages/GariHome'
 
 function ScreenHome() {
   return (
