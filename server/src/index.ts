@@ -1,7 +1,14 @@
 import Koa from 'koa'
 import Serve from 'koa-static'
+import { Server } from 'socket.io'
 
 const app = new Koa()
 app.use(Serve(__dirname + '/../../client/build'))
 
-app.listen(3000)
+const server = app.listen(3001)
+
+const io = new Server(server);
+
+io.on('connection', socket => {
+  console.log('Player connected!', socket.id);
+});
