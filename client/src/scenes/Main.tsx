@@ -1,7 +1,7 @@
 import image from '@/assets/test.png'
-
 export class Main extends Phaser.Scene {
   count: number
+  angle: any
 
   constructor(config: string) {
     super(config)
@@ -13,7 +13,12 @@ export class Main extends Phaser.Scene {
 
   create(this: any) {
     this.rope = this.add.rope(400, 300, 'toong', null, 20)
+
+    this.input.on('pointermove', (pointer: any) => {
+      this.angle = Phaser.Math.Angle.BetweenPoints(this.rope, pointer)
+    })
   }
+
   update(this: any) {
     this.count += 0.1
 
@@ -25,5 +30,6 @@ export class Main extends Phaser.Scene {
     }
 
     this.rope.setDirty()
+    this.rope.rotation = this.angle
   }
 }
