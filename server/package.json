@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Typescript Starter",
   "scripts": {
+    "start": "nodemon --exec ts-node src/index.ts",
     "watch": "tsc --watch",
     "build": "tsc",
     "prettier": "npx prettier --config .prettierrc 'src/**/*.ts' --write",
@@ -11,12 +12,20 @@
   "author": "LeeShinYeoung",
   "license": "ISC",
   "devDependencies": {
+    "@types/koa": "^2.13.5",
+    "@types/koa-static": "^4.0.2",
     "@typescript-eslint/eslint-plugin": "^5.40.0",
     "@typescript-eslint/parser": "^5.40.0",
     "eslint": "^8.25.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.2.1",
+    "nodemon": "^2.0.20",
     "prettier": "^2.7.1",
+    "ts-node": "^10.9.1",
     "typescript": "^4.8.4"
+  },
+  "dependencies": {
+    "koa": "^2.13.4",
+    "koa-static": "^5.0.0"
   }
 }
