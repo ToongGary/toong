@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import Phaser from 'phaser'
+import { Main } from '@/scenes/main'
 
 export class TwoHome extends React.Component {
   componentDidMount() {
@@ -9,19 +10,8 @@ export class TwoHome extends React.Component {
       height: 1000,
       type: Phaser.AUTO,
       parent: 'game-container',
-      scene: {
-        preload: preload,
-        create: create
-        // update: update
-      }
+      scene: Main
     })
-    function preload(this: any) {
-      this.load.image('toong', 'assets/background.png')
-    }
-
-    function create(this: any) {
-      const toong = this.add.sprite(100, 100, 'toong')
-    }
   }
 
   public render() {
