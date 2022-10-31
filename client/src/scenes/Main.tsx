@@ -20,7 +20,6 @@ export class Main extends Phaser.Scene {
     const points = this.rope.points
 
     for (let i = 0; i < points.length; i++) {
-      console.log(i * Math.PI, Math.sin(i * Math.PI))
       points[i].y = Math.sin((i * Math.PI) / 19) * 30 * Math.sin(this.count * 2)
     }
 
