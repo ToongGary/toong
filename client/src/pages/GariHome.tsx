@@ -3,11 +3,10 @@ import { Link } from 'react-router-dom'
 import Phaser from 'phaser'
 import { Main } from '@/scenes/Main'
 import io from 'socket.io-client'
+import constants from '@/constants'
 
 export class TwoHome extends React.Component {
   componentDidMount() {
-    const constants = require('@/constants')
-
     const socket = io('http://localhost:3001', { transports: ['websocket'] })
 
     socket.connect()
@@ -16,9 +15,11 @@ export class TwoHome extends React.Component {
       console.log('Connected to server')
     })
 
-    socket.on(constants.NETWORK_MESSAGE.UPDATE, renderGame)
+    socket.on(constants.NETWORK_MESSAGES.UPDATE, renderGame)
 
-    function renderGame() {}
+    function renderGame() {
+      console.log('render')
+    }
 
     new Phaser.Game({
       width: 1000,
