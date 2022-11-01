@@ -1,6 +1,6 @@
 import Player from './player'
 import { Socket } from 'socket.io'
-import { InputMessage } from './message_objects'
+import { InputMessage } from './interfaces/message.interface'
 import { NETWORK_MESSAGES } from './constants'
 
 const UpdatePerSecond = 60

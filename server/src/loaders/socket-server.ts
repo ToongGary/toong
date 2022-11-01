@@ -1,6 +1,6 @@
 import { Server, Socket } from 'socket.io'
 import { NETWORK_MESSAGES } from '../constants'
-import { InputMessage } from '../message_objects'
+import { InputMessage } from '../interfaces/message.interface'
 import Room from '../room'
 
 export class SocketServer {

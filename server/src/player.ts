@@ -1,4 +1,4 @@
-import { InputMessage } from './message_objects'
+import { InputMessage } from './interfaces/message.interface'
 
 export default class Player {
   name: string
