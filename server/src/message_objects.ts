@@ -1,8 +1,8 @@
 export interface InputMessage {
-    move :boolean
-    angle :number
+  move: boolean
+  angle: number
 }
 export interface UpdateMessage {
-    x: number
-    y: number
+  x: number
+  y: number
 }

@@ -5,8 +5,6 @@ import { Main } from '@/scenes/Main'
 
 export class TwoHome extends React.Component {
   componentDidMount() {
-
-
     new Phaser.Game({
       width: 1000,
       height: 1000,
