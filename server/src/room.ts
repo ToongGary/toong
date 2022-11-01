@@ -1,9 +1,9 @@
 import Player from './player'
 import { Socket } from 'socket.io'
 import { InputMessage } from './message_objects'
+import { NETWORK_MESSAGES } from './constants'
 
 const UpdatePerSecond = 60
-const constants = require('./constants')
 
 export default class Room {
   sockets: { [id: string]: Socket }
@@ -29,7 +29,7 @@ export default class Room {
     for (let id in this.sockets) {
       let socket = this.sockets[id]
       let player = this.players[id]
-      socket.emit(constants.NETWORK_MESSAGES.UPDATE, {
+      socket.emit(NETWORK_MESSAGES.UPDATE, {
         x: player.x,
         y: player.y
       })
