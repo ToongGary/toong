@@ -16,6 +16,7 @@ export default class Room {
   }
 
   public addPlayer(socket: Socket, name: string) {
+    console.log('User joined!', name)
     this.players[socket.id] = new Player(name, 100, 100)
     this.sockets[socket.id] = socket
   }
