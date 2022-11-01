@@ -23,6 +23,7 @@ export default class Room {
 
   public processInput(socket: Socket, input: InputMessage) {
     const player = this.players[socket.id]
+    if (!player) return
     player.processInput(input)
   }
 
