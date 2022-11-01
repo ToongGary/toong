@@ -27,8 +27,8 @@ function userDisconnected() {
 
 }
 
-function inputRecieved(input:InputMessage) {
-  console.log(input.move, input.angle);
+function inputRecieved(this:Socket, input:InputMessage) {
+  room.processInput(this, input);
 }
 
 function userJoined(this:Socket, username:string) {

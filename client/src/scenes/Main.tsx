@@ -1,6 +1,7 @@
 import image from '@/assets/test.png'
 import io, { Socket } from 'socket.io-client'
 import constants from '@/constants'
+import { UpdateMessage } from '@/message_objects'
 
 export class Main extends Phaser.Scene {
   count: number
@@ -20,10 +21,12 @@ export class Main extends Phaser.Scene {
       console.log('Connected to server')
     })
 
+    this.socket.emit(constants.NETWORK_MESSAGES.JOIN, { name: 'test' })
+
     this.socket.on(constants.NETWORK_MESSAGES.UPDATE, renderGame)
 
-    function renderGame() {
-      console.log('render')
+    function renderGame(updateMessage: UpdateMessage) {
+      console.log('test', updateMessage.x, updateMessage.y)
     }
   }
   preload(this: any) {
@@ -35,15 +38,12 @@ export class Main extends Phaser.Scene {
 
     this.input.on('pointermove', (pointer: any) => {
       let move: boolean
-      console.log(this.rope.getBounds)
       if (this.rope.getBounds().contains(pointer.x, pointer.y)) {
         move = false
       } else {
         move = true
         this.angle = Phaser.Math.Angle.BetweenPoints(this.rope, pointer)
       }
-
-      console.log(move, this.angle)
 
       this.socket.emit(constants.NETWORK_MESSAGES.USER_INPUT, { move: move, angle: this.angle })
     })
