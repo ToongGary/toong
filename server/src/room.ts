@@ -21,14 +21,14 @@ export default class Room {
   }
 
   public processInput(socket: Socket, input: InputMessage) {
-    let player = this.players[socket.id]
+    const player = this.players[socket.id]
     player.processInput(input)
   }
 
   private broadcast() {
-    for (let id in this.sockets) {
-      let socket = this.sockets[id]
-      let player = this.players[id]
+    for (const id in this.sockets) {
+      const socket = this.sockets[id]
+      const player = this.players[id]
       socket.emit(NETWORK_MESSAGES.UPDATE, {
         x: player.x,
         y: player.y
@@ -37,8 +37,8 @@ export default class Room {
   }
 
   private update() {
-    for (let id in this.sockets) {
-      let player = this.players[id]
+    for (const id in this.sockets) {
+      const player = this.players[id]
       player.update()
     }
 
