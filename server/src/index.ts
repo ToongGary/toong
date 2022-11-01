@@ -4,7 +4,7 @@ import { Server, Socket } from 'socket.io'
 import Room from './room'
 import { InputMessage } from './message_objects';
 
-const constants = require('../../shared/constants');
+const constants = require('./constants');
 
 
 const app = new Koa()
