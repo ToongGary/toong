@@ -5,9 +5,11 @@ import Room from '../services/room'
 
 export class SocketServer {
   private io: Server
+  private room: Room
 
   constructor(server: any) {
     this.io = new Server(server)
+    this.room = new Room()
   }
 
   public boot() {
@@ -23,18 +25,17 @@ export class SocketServer {
   private connectLoader(socket: Socket) {
     console.log('socket connected', socket.id)
 
-    const room = new Room()
-
     socket.on(NETWORK_MESSAGES.USER_INPUT, (input: InputMessage) => {
-      room.processInput(socket, input)
+      this.room.processInput(socket, input)
     })
 
     socket.on(NETWORK_MESSAGES.JOIN, (username: string) => {
-      room.addPlayer(socket, username)
+      this.room.addPlayer(socket, username)
     })
   }
 
   private disconnectLoader(socket: Socket) {
+    this.room.removePlayer(socket)
     console.log('socket disconnected', socket.id)
   }
 }

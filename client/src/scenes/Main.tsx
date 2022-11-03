@@ -1,7 +1,7 @@
 import image from '@/assets/test.png'
 import io, { Socket } from 'socket.io-client'
 import constants from '@/constants'
-import { UpdateMessage } from '@/message_objects'
+import { PlayerData, UpdateMessage } from '@/message_objects'
 
 export class Main extends Phaser.Scene {
   count: number
@@ -26,7 +26,10 @@ export class Main extends Phaser.Scene {
     this.socket.on(constants.NETWORK_MESSAGES.UPDATE, renderGame)
 
     function renderGame(updateMessage: UpdateMessage) {
-      console.log('test', updateMessage.x, updateMessage.y)
+      console.log('test', updateMessage.me.x, updateMessage.me.y)
+      for (const enemy of updateMessage.enemies) {
+        console.log('enemy', enemy.x, enemy.y)
+      }
     }
   }
   preload(this: any) {
@@ -34,7 +37,7 @@ export class Main extends Phaser.Scene {
   }
 
   create(this: any) {
-    this.rope = this.add.sprite(400, 300, 'toong', null, 20)
+    this.rope = this.add.sprite(500, 500, 'toong', null, 20)
 
     this.input.on('pointermove', (pointer: any) => {
       let move: boolean
