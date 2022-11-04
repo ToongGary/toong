@@ -20,7 +20,7 @@ export default class Room {
     this.players[socket.id] = new Player(name, 100, 100, socket.id)
     this.sockets[socket.id] = socket
   }
-  
+
   public removePlayer(socket: Socket) {
     delete this.sockets[socket.id]
     delete this.players[socket.id]
@@ -36,16 +36,13 @@ export default class Room {
     for (const id in this.sockets) {
       const socket = this.sockets[id]
       const player = this.players[id]
-      
 
-      const playersInViewport = Object.values(this.players).filter(
-        enemy => { 
-          return(enemy !== player && player.playerInViewport(enemy))        
-        }
-      );
+      const playersInViewport = Object.values(this.players).filter((enemy) => {
+        return enemy !== player && player.playerInViewport(enemy)
+      })
 
       socket.emit(NETWORK_MESSAGES.UPDATE, {
-        enemies: playersInViewport.map(enemy => enemy.getPlayerData()),
+        enemies: playersInViewport.map((enemy) => enemy.getPlayerData()),
         me: player.getPlayerData()
       })
     }

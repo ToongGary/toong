@@ -9,7 +9,7 @@ export default class Player {
   score: number
   moving: boolean
   direction: number
-  viewportSize:[number, number]
+  viewportSize: [number, number]
 
   constructor(name: string, x: number, y: number, id: string) {
     this.id = id
@@ -23,9 +23,17 @@ export default class Player {
     this.viewportSize = [1600, 800]
   }
 
-  public playerInViewport(player: Player) : boolean {
-    console.log(Math.abs(player.x-this.x), Math.abs(player.y-this.y), (Math.abs(player.x-this.x) <= this.viewportSize[0]/2) && (Math.abs(player.y-this.y) <= this.viewportSize[1]/2))
-    return (Math.abs(player.x-this.x) <= this.viewportSize[0]/2) && (Math.abs(player.y-this.y) <= this.viewportSize[1]/2)
+  public playerInViewport(player: Player): boolean {
+    console.log(
+      Math.abs(player.x - this.x),
+      Math.abs(player.y - this.y),
+      Math.abs(player.x - this.x) <= this.viewportSize[0] / 2 &&
+        Math.abs(player.y - this.y) <= this.viewportSize[1] / 2
+    )
+    return (
+      Math.abs(player.x - this.x) <= this.viewportSize[0] / 2 &&
+      Math.abs(player.y - this.y) <= this.viewportSize[1] / 2
+    )
   }
 
   public update() {
@@ -35,7 +43,7 @@ export default class Player {
     }
   }
 
-  public getPlayerData() : PlayerData {
+  public getPlayerData(): PlayerData {
     return {
       x: this.x,
       y: this.y,

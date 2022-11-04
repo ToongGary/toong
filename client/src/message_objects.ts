@@ -7,10 +7,10 @@ export interface PlayerData {
   id: string
   x: number
   y: number
-  direction : number
+  direction: number
 }
 
 export interface UpdateMessage {
-  me:PlayerData
+  me: PlayerData
   enemies: PlayerData[]
 }

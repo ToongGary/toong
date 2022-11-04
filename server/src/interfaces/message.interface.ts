@@ -6,10 +6,10 @@ export interface InputMessage {
 export interface PlayerData {
   x: number
   y: number
-  direction : number
+  direction: number
 }
 
 export interface UpdateMessage {
-  me:PlayerData
+  me: PlayerData
   enemies: PlayerData[]
 }
