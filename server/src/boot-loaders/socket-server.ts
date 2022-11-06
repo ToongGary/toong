@@ -1,41 +1,24 @@
-import { Server, Socket } from 'socket.io'
-import { NETWORK_MESSAGES } from '../constants'
-import { InputMessage } from '../interfaces/message.interface'
-import Room from '../services/room'
+import { Server } from 'socket.io'
+import { ISocketLoader, SocketLoader } from './socket-loader'
 
 export class SocketServer {
   private io: Server
-  private room: Room
+  private loaders: ISocketLoader[]
 
-  constructor(server: any) {
+  constructor(server: any, loaders: ISocketLoader[] = []) {
     this.io = new Server(server)
-    this.room = new Room()
+    this.loaders = loaders
   }
 
   public boot() {
+    const loader = new SocketLoader(...this.loaders)
+
     this.io.on('connection', (socket) => {
-      this.connectLoader(socket)
+      loader.connectLoader(socket)
 
       socket.on('disconnect', () => {
-        this.disconnectLoader(socket)
+        loader.disconnectLoader(socket)
       })
     })
-  }
-
-  private connectLoader(socket: Socket) {
-    console.log('socket connected', socket.id)
-
-    socket.on(NETWORK_MESSAGES.USER_INPUT, (input: InputMessage) => {
-      this.room.processInput(socket, input)
-    })
-
-    socket.on(NETWORK_MESSAGES.JOIN, (username: string) => {
-      this.room.addPlayer(socket, username)
-    })
-  }
-
-  private disconnectLoader(socket: Socket) {
-    this.room.removePlayer(socket)
-    console.log('socket disconnected', socket.id)
   }
 }

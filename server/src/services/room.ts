@@ -2,10 +2,11 @@ import Player from './player'
 import { Socket } from 'socket.io'
 import { InputMessage } from '../interfaces/message.interface'
 import { NETWORK_MESSAGES } from '../constants'
+import { ISocketLoader } from '../boot-loaders/socket-loader'
 
 const UpdatePerSecond = 10
 
-export default class Room {
+export default class Room implements ISocketLoader {
   sockets: { [id: string]: Socket }
   players: { [id: string]: Player }
 
@@ -13,6 +14,20 @@ export default class Room {
     this.sockets = {}
     this.players = {}
     setInterval(this.update.bind(this), 1000 / UpdatePerSecond)
+  }
+
+  public onConnection(socket: Socket) {
+    socket.on(NETWORK_MESSAGES.USER_INPUT, (input: InputMessage) => {
+      this.processInput(socket, input)
+    })
+
+    socket.on(NETWORK_MESSAGES.JOIN, (username: string) => {
+      this.addPlayer(socket, username)
+    })
+  }
+
+  public onDisconnection(socket: Socket) {
+    this.removePlayer(socket)
   }
 
   public addPlayer(socket: Socket, name: string) {
