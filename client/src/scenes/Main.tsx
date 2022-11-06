@@ -41,7 +41,8 @@ export class Main extends Phaser.Scene {
     this.count = 0
     this.enemies = {}
 
-    this.socket = io('172.30.1.74:3001', { transports: ['websocket'] })
+    // this.socket = io('172.30.1.74:3001', { transports: ['websocket'] })
+    this.socket = io('localhost:3001', { transports: ['websocket'] })
 
     this.socket.connect()
 

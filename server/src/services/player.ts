@@ -10,6 +10,7 @@ export default class Player {
   moving: boolean
   direction: number
   viewportSize: [number, number]
+  maxAreaSize: [number, number]
 
   constructor(name: string, x: number, y: number, id: string) {
     this.id = id
@@ -21,6 +22,7 @@ export default class Player {
     this.moving = false
     this.direction = 0
     this.viewportSize = [1600, 800]
+    this.maxAreaSize = [10000, 10000]
   }
 
   public playerInViewport(player: Player): boolean {
@@ -41,6 +43,11 @@ export default class Player {
       this.x += Math.cos(this.direction) * 5
       this.y += Math.sin(this.direction) * 5
     }
+
+    if (this.x < 0) this.x = 0
+    if (this.y < 0) this.y = 0
+    if (this.x > this.maxAreaSize[0]) this.x = this.maxAreaSize[0]
+    if (this.y > this.maxAreaSize[1]) this.y = this.maxAreaSize[1]
   }
 
   public getPlayerData(): PlayerData {
