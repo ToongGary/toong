@@ -36,7 +36,7 @@ export class Main extends Phaser.Scene {
     this.count = 0
     this.enemies = {}
 
-    this.socket = io('http://localhost:3001', { transports: ['websocket'] })
+    this.socket = io('172.30.1.74:3001', { transports: ['websocket'] })
 
     this.socket.connect()
 
@@ -54,8 +54,8 @@ export class Main extends Phaser.Scene {
   renderGame(updateMessage: UpdateMessage) {
     console.log('test', updateMessage.me.x, updateMessage.me.y)
     for (const enemy of updateMessage.enemies) {
-      const relativsX = enemy.x - updateMessage.me.x
-      const relativsY = enemy.y - updateMessage.me.y
+      const relativsX = enemy.x - updateMessage.me.x + this.rope.x
+      const relativsY = enemy.y - updateMessage.me.y + this.rope.y
 
       console.log('eneny', relativsX, relativsY)
 
