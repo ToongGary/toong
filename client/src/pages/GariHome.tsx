@@ -6,10 +6,15 @@ import { Main } from '@/scenes/Main'
 export class TwoHome extends React.Component {
   componentDidMount() {
     new Phaser.Game({
-      width: 1000,
-      height: 1000,
+      scale: {
+        parent: '_game-container',
+        mode: Phaser.Scale.ENVELOP,
+        autoCenter: Phaser.Scale.CENTER_BOTH,
+        width: 1600,
+        height: 800
+      },
+
       type: Phaser.AUTO,
-      parent: 'game-container',
       scene: Main
     })
   }

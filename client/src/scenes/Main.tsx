@@ -37,7 +37,7 @@ export class Main extends Phaser.Scene {
   }
 
   create(this: any) {
-    this.rope = this.add.sprite(500, 500, 'toong', null, 20)
+    this.rope = this.add.sprite(this.cameras.main.width / 2, this.cameras.main.height / 2, 'toong')
 
     this.input.on('pointermove', (pointer: any) => {
       let move: boolean
