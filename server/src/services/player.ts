@@ -20,7 +20,7 @@ export default class Player {
     this.score = 0
     this.moving = false
     this.direction = 0
-    this.viewportSize = [1000, 1000]
+    this.viewportSize = [1600, 800]
   }
 
   public playerInViewport(player: Player) : boolean {

@@ -3,15 +3,38 @@ import io, { Socket } from 'socket.io-client'
 import constants from '@/constants'
 import { PlayerData, UpdateMessage } from '@/message_objects'
 
+class Enemy {
+  x: number
+  y: number
+  sprite: Phaser.GameObjects.Sprite
+  updated = true
+
+  constructor(scene: Phaser.Scene, x: number, y: number) {
+    this.x = x
+    this.y = y
+    this.sprite = scene.add.sprite(x, y, 'toong')
+  }
+
+  update(x: number, y: number) {
+    this.x = x
+    this.y = y
+    this.sprite.setPosition(this.x, this.y)
+    this.updated = true
+  }
+}
+
 export class Main extends Phaser.Scene {
   count: number
   angle: any
   rope: any
   socket: Socket
+  enemies: { [id: string]: Enemy }
 
   constructor(config: string) {
     super(config)
+
     this.count = 0
+    this.enemies = {}
 
     this.socket = io('http://localhost:3001', { transports: ['websocket'] })
 
@@ -23,15 +46,36 @@ export class Main extends Phaser.Scene {
 
     this.socket.emit(constants.NETWORK_MESSAGES.JOIN, { name: 'test' })
 
-    this.socket.on(constants.NETWORK_MESSAGES.UPDATE, renderGame)
+    this.socket.on(constants.NETWORK_MESSAGES.UPDATE, (updateMessage: UpdateMessage) => {
+      this.renderGame(updateMessage)
+    })
+  }
 
-    function renderGame(updateMessage: UpdateMessage) {
-      console.log('test', updateMessage.me.x, updateMessage.me.y)
-      for (const enemy of updateMessage.enemies) {
-        console.log('enemy', enemy.x, enemy.y)
+  renderGame(updateMessage: UpdateMessage) {
+    console.log('test', updateMessage.me.x, updateMessage.me.y)
+    for (const enemy of updateMessage.enemies) {
+      const relativsX = enemy.x - updateMessage.me.x
+      const relativsY = enemy.y - updateMessage.me.y
+
+      console.log('eneny', relativsX, relativsY)
+
+      if (enemy.id in this.enemies) {
+        this.enemies[enemy.id].update(relativsX, relativsY)
+      } else {
+        this.enemies[enemy.id] = new Enemy(this, relativsX, relativsY)
+      }
+    }
+    for (const exsistingEnemyId of Object.keys(this.enemies)) {
+      const exsistingEnemy = this.enemies[exsistingEnemyId]
+      if (!exsistingEnemy.updated) {
+        exsistingEnemy.sprite.destroy()
+        delete this.enemies[exsistingEnemyId]
+      } else {
+        exsistingEnemy.updated = false
       }
     }
   }
+
   preload(this: any) {
     this.load.image('toong', image)
   }
