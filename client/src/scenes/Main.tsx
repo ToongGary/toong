@@ -8,17 +8,22 @@ class Enemy {
   y: number
   sprite: Phaser.GameObjects.Sprite
   updated = true
+  angle: number
 
-  constructor(scene: Phaser.Scene, x: number, y: number) {
+  constructor(scene: Phaser.Scene, x: number, y: number, angle: number) {
     this.x = x
     this.y = y
+    this.angle = angle
     this.sprite = scene.add.sprite(x, y, 'toong')
+    this.sprite.setRotation(this.angle)
   }
 
-  update(x: number, y: number) {
+  update(x: number, y: number, angle: number) {
     this.x = x
     this.y = y
+    this.angle = angle
     this.sprite.setPosition(this.x, this.y)
+    this.sprite.setRotation(this.angle)
     this.updated = true
   }
 }
@@ -53,6 +58,7 @@ export class Main extends Phaser.Scene {
 
   renderGame(updateMessage: UpdateMessage) {
     console.log('test', updateMessage.me.x, updateMessage.me.y)
+    this.angle = updateMessage.me.direction
     for (const enemy of updateMessage.enemies) {
       const relativsX = enemy.x - updateMessage.me.x + this.rope.x
       const relativsY = enemy.y - updateMessage.me.y + this.rope.y
@@ -60,9 +66,9 @@ export class Main extends Phaser.Scene {
       console.log('eneny', relativsX, relativsY)
 
       if (enemy.id in this.enemies) {
-        this.enemies[enemy.id].update(relativsX, relativsY)
+        this.enemies[enemy.id].update(relativsX, relativsY, enemy.direction)
       } else {
-        this.enemies[enemy.id] = new Enemy(this, relativsX, relativsY)
+        this.enemies[enemy.id] = new Enemy(this, relativsX, relativsY, enemy.direction)
       }
     }
     for (const exsistingEnemyId of Object.keys(this.enemies)) {
@@ -89,10 +95,12 @@ export class Main extends Phaser.Scene {
         move = false
       } else {
         move = true
-        this.angle = Phaser.Math.Angle.BetweenPoints(this.rope, pointer)
       }
 
-      this.socket.emit(constants.NETWORK_MESSAGES.USER_INPUT, { move: move, angle: this.angle })
+      this.socket.emit(constants.NETWORK_MESSAGES.USER_INPUT, {
+        move: move,
+        angle: Phaser.Math.Angle.BetweenPoints(this.rope, pointer)
+      })
     })
   }
 
