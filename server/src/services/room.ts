@@ -2,11 +2,11 @@ import Player from './player'
 import { Socket } from 'socket.io'
 import { InputMessage } from '../interfaces/message.interface'
 import { NETWORK_MESSAGES } from '../constants'
-import { ISocketLoader } from '../boot-loaders/socket-loader'
+import { SocketLoaderBase } from '../interfaces/socket-loader.interface'
 
 const UpdatePerSecond = 10
 
-export default class Room implements ISocketLoader {
+export default class Room implements SocketLoaderBase {
   sockets: { [id: string]: Socket }
   players: { [id: string]: Player }
 

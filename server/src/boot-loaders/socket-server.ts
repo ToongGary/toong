@@ -1,11 +1,12 @@
 import { Server } from 'socket.io'
-import { ISocketLoader, SocketLoader } from './socket-loader'
+import { SocketLoaderBase } from '../interfaces/socket-loader.interface'
+import { SocketLoader } from './socket-loader'
 
 export class SocketServer {
   private io: Server
-  private loaders: ISocketLoader[]
+  private loaders: SocketLoaderBase[]
 
-  constructor(server: any, loaders: ISocketLoader[] = []) {
+  constructor(server: any, loaders: SocketLoaderBase[] = []) {
     this.io = new Server(server)
     this.loaders = loaders
   }
