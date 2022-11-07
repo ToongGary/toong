@@ -1,5 +1,5 @@
 import { InputMessage } from '../interfaces/message.interface'
-import Player from './player'
+import Player from '../objects/player.object'
 
 export class GameService {
   private Players: Map<string, Player>
