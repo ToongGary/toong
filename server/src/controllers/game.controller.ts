@@ -1,7 +1,7 @@
 import { Socket } from 'socket.io'
+import { SocketLoaderBase } from '../boot-loaders/socket-loader'
 import { NETWORK_MESSAGES } from '../constants'
 import { InputMessage } from '../interfaces/message.interface'
-import { SocketLoaderBase } from '../interfaces/socket-loader.interface'
 import { GameService } from '../services/game.service'
 
 export class GameController implements SocketLoaderBase {

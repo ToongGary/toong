@@ -1,6 +1,8 @@
 import { Socket } from 'socket.io'
-import { SocketLoaderBase } from '../interfaces/socket-loader.interface'
-
+export interface SocketLoaderBase {
+  onConnection: (socket: Socket) => void
+  onDisconnection: (socket: Socket) => void
+}
 export class SocketLoader {
   loaders: SocketLoaderBase[]
 

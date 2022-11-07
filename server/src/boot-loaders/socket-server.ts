@@ -1,6 +1,5 @@
 import { Server } from 'socket.io'
-import { SocketLoaderBase } from '../interfaces/socket-loader.interface'
-import { SocketLoader } from './socket-loader'
+import { SocketLoader, SocketLoaderBase } from './socket-loader'
 
 export class SocketServer {
   private io: Server
