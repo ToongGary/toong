@@ -39,7 +39,7 @@ export default class Player {
     )
   }
 
-  public update() {
+  public updatePosition() {
     if (this.moving) {
       this.x += Math.cos(this.direction) * 5
       this.y += Math.sin(this.direction) * 5
@@ -51,7 +51,7 @@ export default class Player {
     if (this.y > this.maxAreaSize[1]) this.y = this.maxAreaSize[1]
   }
 
-  public getPlayerData(): PlayerData {
+  public getPosition(): PlayerData {
     return {
       x: this.x,
       y: this.y,

@@ -46,7 +46,6 @@ export class GameController implements SocketLoaderBase {
 
   private emitUpdate(message: NETWORK_MESSAGES.UPDATE) {
     for (const socket of this.sockets.values()) {
-      this.GameService.update(socket.id)
       socket.emit(message, this.GameService.calculatePosition(socket.id))
     }
   }

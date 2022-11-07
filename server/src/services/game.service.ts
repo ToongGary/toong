@@ -20,13 +20,9 @@ export class GameService {
     this.Players.get(id)?.processInput(input)
   }
 
-  public update(id: string) {
-    const player = this.Players.get(id)
-    player?.update()
-  }
-
   public calculatePosition(id: string) {
     const player = this.Players.get(id)
+    player?.updatePosition()
 
     const enemies = [...this.Players.values()]
       .filter((enemy) => {
@@ -35,12 +31,12 @@ export class GameService {
         return isEnemy && isInViewport
       })
       .map((enemy) => {
-        return enemy.getPlayerData()
+        return enemy.getPosition()
       })
 
     return {
       enemies: enemies,
-      me: player?.getPlayerData()
+      me: player?.getPosition()
     }
   }
 }
