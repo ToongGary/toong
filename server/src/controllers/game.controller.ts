@@ -18,7 +18,9 @@ export class GameController implements SocketLoaderBase {
   public onConnection(socket: Socket) {
     this.sockets.set(socket.id, socket)
 
-    socket.on(NETWORK_MESSAGES.JOIN, (data) => this.listenJoin(socket, data))
+    socket.on(NETWORK_MESSAGES.JOIN, (data) =>
+      this.listenUserJoin(socket, data)
+    )
 
     socket.on(NETWORK_MESSAGES.USER_INPUT, (data) =>
       this.listenUserInput(socket, data)
@@ -34,7 +36,7 @@ export class GameController implements SocketLoaderBase {
     this.emitUpdate(NETWORK_MESSAGES.UPDATE)
   }
 
-  private listenJoin(socket: Socket, { name }: { name: string }) {
+  private listenUserJoin(socket: Socket, { name }: { name: string }) {
     this.GameService.join(socket.id, name)
   }
 
