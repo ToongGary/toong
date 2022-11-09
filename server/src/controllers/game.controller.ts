@@ -1,18 +1,32 @@
+import { EventEmitter } from 'events'
 import { Socket } from 'socket.io'
 import { SocketLoaderBase } from '../boot-loaders/socket-loader'
 import { NETWORK_MESSAGES } from '../constants'
 import { InputMessage } from '../interfaces/message.interface'
+import { Coin } from '../objects/coin.object'
 import { GameService } from '../services/game.service'
 
 export class GameController implements SocketLoaderBase {
   private GameService: GameService
   private sockets: Map<string, Socket>
+  private eventEmitter: EventEmitter
 
   constructor() {
-    this.GameService = new GameService()
+    this.eventEmitter = new EventEmitter()
+    this.GameService = new GameService(this.eventEmitter)
     this.sockets = new Map()
 
-    setInterval(this.onBroadcast.bind(this), 10)
+    this.onBroadcast()
+  }
+
+  private onBroadcast() {
+    setInterval(() => {
+      this.emitUpdatePlayer(NETWORK_MESSAGES.UPDATE)
+    }, 10)
+
+    this.eventEmitter.on(NETWORK_MESSAGES.UPDATE_COIN, (coins: Coin[]) => {
+      this.emitUpdateCoin(NETWORK_MESSAGES.UPDATE_COIN, coins)
+    })
   }
 
   public onConnection(socket: Socket) {
@@ -32,10 +46,6 @@ export class GameController implements SocketLoaderBase {
     this.GameService.leave(socket.id)
   }
 
-  private onBroadcast() {
-    this.emitUpdate(NETWORK_MESSAGES.UPDATE)
-  }
-
   private listenUserJoin(socket: Socket, { name }: { name: string }) {
     this.GameService.join(socket.id, name)
   }
@@ -44,9 +54,15 @@ export class GameController implements SocketLoaderBase {
     this.GameService.userInput(socket.id, input)
   }
 
-  private emitUpdate(message: NETWORK_MESSAGES.UPDATE) {
+  private emitUpdatePlayer(message: NETWORK_MESSAGES.UPDATE) {
     for (const socket of this.sockets.values()) {
       socket.emit(message, this.GameService.calculatePosition(socket.id))
+    }
+  }
+
+  private emitUpdateCoin(message: NETWORK_MESSAGES.UPDATE_COIN, coins: Coin[]) {
+    for (const socket of this.sockets.values()) {
+      socket.emit(message, this.GameService.calculatePosition(socket.id), coins)
     }
   }
 }
