@@ -2,6 +2,7 @@ import image from '@/assets/test.png'
 import io, { Socket } from 'socket.io-client'
 import constants from '@/constants'
 import { PlayerData, UpdateMessage } from '@/message_objects'
+import background from '@/assets/background.png'
 
 class Enemy {
   x: number
@@ -15,6 +16,8 @@ class Enemy {
     this.y = y
     this.angle = angle
     this.sprite = scene.add.sprite(x, y, 'toong')
+    this.sprite.setRotation(this.angle)
+    this.sprite = scene.add.sprite(x, y, 'background')
     this.sprite.setRotation(this.angle)
   }
 
@@ -85,9 +88,24 @@ export class Main extends Phaser.Scene {
 
   preload(this: any) {
     this.load.image('toong', image)
+    this.load.image('mushroom', background)
+
   }
 
-  create(this: any) {
+  create(this: any, enemy?: Enemy) {
+
+
+    const container = this.add.container(1000, 1000).setName('tool');
+    this.add.tileSprite(200, 500, 6000, 1000, 'mushroom').setName('toongTile');
+    const image = this.add.image(0, 0, 'mushroom').setName('tooong').setScale(4);
+    container.add(image);
+
+    this.input.on('pointerup', function (this: any) {
+
+      this.scene.stop(false);
+    }, this);
+    //add tile map to scene
+
     this.rope = this.add.sprite(this.cameras.main.width / 2, this.cameras.main.height / 2, 'toong')
 
     this.input.on('pointermove', (pointer: any) => {
@@ -105,7 +123,14 @@ export class Main extends Phaser.Scene {
     })
   }
 
-  update(this: any) {
+  update(this: any, iter: number) {
+    {
+      iter = 0;
+      this.tilePositionX = Math.cos(-iter) * 8;
+      this.tilePositionY = Math.sin(-iter) * 8;
+      iter += 0.2;
+    }
+
     this.count += 0.1
 
     // const points = this.rope.points
