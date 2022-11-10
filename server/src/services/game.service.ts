@@ -16,8 +16,6 @@ export class GameService {
     this.coins = []
     this.maxCoins = 60
     this.areaSize = { width: 1000, height: 1000 }
-
-    this.generateCoin()
   }
 
   private generateCoin() {
