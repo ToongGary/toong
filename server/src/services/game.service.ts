@@ -16,8 +16,6 @@ export class GameService {
     this.coins = []
     this.maxCoins = 60
     this.areaSize = { width: 1000, height: 1000 }
-
-    this.generateCoin()
   }
 
   private generateCoin() {
@@ -57,7 +55,7 @@ export class GameService {
     const enemies = [...this.players.values()]
       .filter((enemy) => {
         const isEnemy = enemy !== player
-        const isInViewport = player?.playerInViewport(enemy)
+        const isInViewport = player?.isPlayerInViewport(enemy)
         return isEnemy && isInViewport
       })
       .map((enemy) => {

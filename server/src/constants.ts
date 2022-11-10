@@ -5,3 +5,5 @@ export const enum NETWORK_MESSAGES {
   GAME_OVER = 'game_over',
   UPDATE_COIN = 'update_coin'
 }
+
+export const MAX_AREA_SIZE = [10000, 10000]

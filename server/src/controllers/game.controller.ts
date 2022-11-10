@@ -16,10 +16,10 @@ export class GameController implements SocketLoaderBase {
     this.GameService = new GameService(this.eventEmitter)
     this.sockets = new Map()
 
-    this.onBroadcast()
+    this.setBroadcast()
   }
 
-  private onBroadcast() {
+  private setBroadcast() {
     setInterval(() => {
       this.emitUpdatePlayer(NETWORK_MESSAGES.UPDATE)
     }, 10)

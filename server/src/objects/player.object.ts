@@ -1,5 +1,6 @@
 import { InputMessage } from '../interfaces/message.interface'
 import { PlayerData } from '../interfaces/player.interface'
+import { MAX_AREA_SIZE } from '../constants'
 
 export default class Player {
   id: string
@@ -11,7 +12,6 @@ export default class Player {
   moving: boolean
   direction: number
   viewportSize: [number, number]
-  maxAreaSize: [number, number]
 
   constructor(name: string, x: number, y: number, id: string) {
     this.id = id
@@ -23,10 +23,9 @@ export default class Player {
     this.moving = false
     this.direction = 0
     this.viewportSize = [1600, 800]
-    this.maxAreaSize = [10000, 10000]
   }
 
-  public playerInViewport(player: Player): boolean {
+  public isPlayerInViewport(player: Player): boolean {
     console.log(
       Math.abs(player.x - this.x),
       Math.abs(player.y - this.y),
@@ -47,8 +46,8 @@ export default class Player {
 
     if (this.x < 0) this.x = 0
     if (this.y < 0) this.y = 0
-    if (this.x > this.maxAreaSize[0]) this.x = this.maxAreaSize[0]
-    if (this.y > this.maxAreaSize[1]) this.y = this.maxAreaSize[1]
+    if (this.x > MAX_AREA_SIZE[0]) this.x = MAX_AREA_SIZE[0]
+    if (this.y > MAX_AREA_SIZE[1]) this.y = MAX_AREA_SIZE[1]
   }
 
   public getPosition(): PlayerData {
