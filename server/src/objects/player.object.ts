@@ -26,12 +26,6 @@ export default class Player {
   }
 
   public isPlayerInViewport(player: Player): boolean {
-    console.log(
-      Math.abs(player.x - this.x),
-      Math.abs(player.y - this.y),
-      Math.abs(player.x - this.x) <= this.viewportSize[0] / 2 &&
-        Math.abs(player.y - this.y) <= this.viewportSize[1] / 2
-    )
     return (
       Math.abs(player.x - this.x) <= this.viewportSize[0] / 2 &&
       Math.abs(player.y - this.y) <= this.viewportSize[1] / 2

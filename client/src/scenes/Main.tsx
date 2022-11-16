@@ -4,8 +4,6 @@ import constants from '@/constants'
 import { PlayerData, UpdateMessage } from '@/message_objects'
 import background from '@/assets/background.png'
 
-
-
 class Enemy {
   x: number
   y: number
@@ -19,7 +17,6 @@ class Enemy {
     this.angle = angle
     this.sprite = scene.add.sprite(x, y, 'toong')
     this.sprite.setRotation(this.angle)
-
   }
 
   update(x: number, y: number, angle: number) {
@@ -38,7 +35,6 @@ export class Main extends Phaser.Scene {
   rope: any
   socket: Socket
   enemies: { [id: string]: Enemy }
-
 
   constructor(config: string) {
     super(config)
@@ -71,7 +67,7 @@ export class Main extends Phaser.Scene {
       console.log('eneny', relativsX, relativsY)
 
       if (enemy.id in this.enemies) {
-        this.enemies[enemy.id].update(relativsX, relativsY, enemy.direction,)
+        this.enemies[enemy.id].update(relativsX, relativsY, enemy.direction)
       } else {
         this.enemies[enemy.id] = new Enemy(this, relativsX, relativsY, enemy.direction)
       }
@@ -90,24 +86,21 @@ export class Main extends Phaser.Scene {
   preload(this: any) {
     this.load.image('toong', image)
     this.load.image('toongBackground', background)
-
   }
 
   create(this: any) {
+    const container = this.add.container(1000, 1000).setName('tool')
+    this.add.tileSprite(200, 500, 6000, 1000, 'toongBackground').setName('toongTile')
+    const image = this.add.image(0, 0, 'toongBackground').setName('toongBackground').setScale(4)
+    container.add(image)
 
-
-
-    const container = this.add.container(1000, 1000).setName('tool');
-    this.add.tileSprite(200, 500, 6000, 1000, 'toongBackground').setName('toongTile');
-    const image = this.add.image(0, 0, 'toongBackground').setName('toongBackground').setScale(4);
-    container.add(image);
-
-
-
-    this.input.on('pointerup', function (this: any) {
-
-      this.scene.stop(false);
-    }, this);
+    this.input.on(
+      'pointerup',
+      function (this: any) {
+        this.scene.stop(false)
+      },
+      this
+    )
     //add tile map to scenes
 
     this.rope = this.add.sprite(this.cameras.main.width / 2, this.cameras.main.height / 2, 'toong')
@@ -127,12 +120,12 @@ export class Main extends Phaser.Scene {
     })
   }
 
-  update(this: any, iter: number,) {
+  update(this: any, iter: number) {
     {
-      iter = 0;
-      this.tilePositionX = Math.cos(-iter) * 8;
-      this.tilePositionY = Math.sin(-iter) * 8;
-      iter += 0.2;
+      iter = 0
+      this.tilePositionX = Math.cos(-iter) * 8
+      this.tilePositionY = Math.sin(-iter) * 8
+      iter += 0.2
     }
 
     this.count += 0.1
