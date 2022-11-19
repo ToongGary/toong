@@ -2,7 +2,7 @@ import { EventEmitter } from 'events'
 import { Socket } from 'socket.io'
 import { SocketLoaderBase } from '../boot-loaders/socket-loader'
 import { NETWORK_MESSAGES } from '../constants'
-import { InputMessage } from '../interfaces/message.interface'
+import { InputMessage, CoinMessage } from '../interfaces/message.interface'
 import { Coin } from '../objects/coin.object'
 import { GameService } from '../services/game.service'
 
@@ -24,17 +24,18 @@ export class GameController implements SocketLoaderBase {
       this.emitUpdatePlayer(NETWORK_MESSAGES.UPDATE)
     }, 10)
 
-    this.eventEmitter.on(NETWORK_MESSAGES.UPDATE_COIN, (coins: Coin[]) => {
-      this.emitUpdateCoin(NETWORK_MESSAGES.UPDATE_COIN, coins)
-    })
+    // this.eventEmitter.on(NETWORK_MESSAGES.UPDATE_COIN, (coins: Coin[]) => {
+    //   this.emitUpdateCoin(NETWORK_MESSAGES.UPDATE_COIN, coins)
+    // })
   }
 
   public onConnection(socket: Socket) {
     this.sockets.set(socket.id, socket)
 
-    socket.on(NETWORK_MESSAGES.JOIN, (data) =>
-      this.listenUserJoin(socket, data)
-    )
+    socket.on(NETWORK_MESSAGES.JOIN, (data) => {
+      socket.emit(NETWORK_MESSAGES.INIT_COIN, this.GameService.getCoinsMessage());
+      this.listenUserJoin(socket, data);
+    })
 
     socket.on(NETWORK_MESSAGES.USER_INPUT, (data) =>
       this.listenUserInput(socket, data)
@@ -60,9 +61,4 @@ export class GameController implements SocketLoaderBase {
     }
   }
 
-  private emitUpdateCoin(message: NETWORK_MESSAGES.UPDATE_COIN, coins: Coin[]) {
-    for (const socket of this.sockets.values()) {
-      socket.emit(message, this.GameService.calculatePosition(socket.id), coins)
-    }
-  }
 }

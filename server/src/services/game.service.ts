@@ -3,35 +3,39 @@ import Player from '../objects/player.object'
 import { EventEmitter } from 'events'
 import { NETWORK_MESSAGES } from '../constants'
 import { Coin } from '../objects/coin.object'
+import { MAX_AREA_SIZE } from '../constants'
+
 export class GameService {
   private eventEmitter: EventEmitter
   private players: Map<string, Player>
   private coins: Array<Coin>
   private maxCoins: number
-  private areaSize: { width: number; height: number }
 
   constructor(eventEmitter: EventEmitter) {
     this.eventEmitter = eventEmitter
     this.players = new Map()
     this.coins = []
     this.maxCoins = 60
-    this.areaSize = { width: 1000, height: 1000 }
   }
 
   private generateCoin() {
     while (this.coins.length < this.maxCoins) {
       const coin = new Coin(10, 10)
       coin.setPosition(
-        Math.floor(Math.random() * this.areaSize.width),
-        Math.floor(Math.random() * this.areaSize.height)
+        Math.floor(Math.random() * MAX_AREA_SIZE[0]),
+        Math.floor(Math.random() * MAX_AREA_SIZE[1])
       )
       this.coins.push(coin)
     }
 
-    this.eventEmitter.emit(
-      NETWORK_MESSAGES.UPDATE_COIN,
-      this.coins.map((coin) => coin.getInfo())
-    )
+    // this.eventEmitter.emit(
+    //   NETWORK_MESSAGES.UPDATE_COIN,
+    //   this.coins.map((coin) => coin.getInfo())
+    // )
+  }
+
+  public getCoinsMessage() {
+    return this.coins.map((coin) => coin.getInfo())
   }
 
   public join(id: string, name: string) {

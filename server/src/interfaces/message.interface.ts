@@ -7,3 +7,9 @@ export interface UpdateMessage {
   me: PlayerData
   enemies: PlayerData[]
 }
+export interface CoinMessage {
+  x: number
+  y: number
+  width: number
+  height: number
+}

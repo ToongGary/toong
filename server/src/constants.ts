@@ -3,7 +3,7 @@ export const enum NETWORK_MESSAGES {
   UPDATE = 'update',
   USER_INPUT = 'input',
   GAME_OVER = 'game_over',
-  UPDATE_COIN = 'update_coin'
+  INIT_COIN = 'init_coin'
 }
 
-export const MAX_AREA_SIZE = [10000, 10000]
+export const MAX_AREA_SIZE = [3000, 3000]

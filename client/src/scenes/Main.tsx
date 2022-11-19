@@ -1,7 +1,8 @@
 import image from '@/assets/test.png'
+import coinImage from '@/assets/coin.png'
 import io, { Socket } from 'socket.io-client'
 import constants from '@/constants'
-import { PlayerData, UpdateMessage } from '@/message_objects'
+import { PlayerData, UpdateMessage, CoinMessage } from '@/message_objects'
 import background from '@/assets/background.png'
 
 class Enemy {
@@ -29,18 +30,31 @@ class Enemy {
   }
 }
 
+class Coin {
+  x: number
+  y: number
+
+  constructor(scene: Phaser.Scene, x: number, y: number) {
+    this.x = x
+    this.y = y
+  }
+}
+
 export class Main extends Phaser.Scene {
-  count: number
+  count = 0
   angle: any
   rope: any
   socket: Socket
-  enemies: { [id: string]: Enemy }
+  enemies: { [id: string]: Enemy } = {}
+  coins: Coin[] = []
+  coinSprites: Coin[] = []
+  viewportSize = [1600, 800]
+  x = 0
+  y = 0
 
   constructor(config: string) {
     super(config)
 
-    this.count = 0
-    this.enemies = {}
     // this.socket = io('172.30.1.74:3001', { transports: ['websocket'] })
     this.socket = io('localhost:3001', { transports: ['websocket'] })
 
@@ -50,6 +64,10 @@ export class Main extends Phaser.Scene {
       console.log('Connected to server')
     })
 
+    this.socket.on(constants.NETWORK_MESSAGES.INIT_COIN, (coinMessage: CoinMessage[]) => {
+      this.initCoin(coinMessage)
+    })
+
     this.socket.emit(constants.NETWORK_MESSAGES.JOIN, { name: 'test' })
 
     this.socket.on(constants.NETWORK_MESSAGES.UPDATE, (updateMessage: UpdateMessage) => {
@@ -57,14 +75,20 @@ export class Main extends Phaser.Scene {
     })
   }
 
+  initCoin(coinMessage: CoinMessage[]) {
+    console.log(coinMessage)
+    this.coins = coinMessage.map((coin) => {
+      return new Coin(this, coin.x, coin.y)
+    })
+  }
+
   renderGame(updateMessage: UpdateMessage) {
-    console.log('test', updateMessage.me.x, updateMessage.me.y)
     this.angle = updateMessage.me.direction
+    this.x = updateMessage.me.x
+    this.y = updateMessage.me.y
     for (const enemy of updateMessage.enemies) {
       const relativsX = enemy.x - updateMessage.me.x + this.rope.x
       const relativsY = enemy.y - updateMessage.me.y + this.rope.y
-
-      console.log('eneny', relativsX, relativsY)
 
       if (enemy.id in this.enemies) {
         this.enemies[enemy.id].update(relativsX, relativsY, enemy.direction)
@@ -84,6 +108,7 @@ export class Main extends Phaser.Scene {
   }
 
   preload(this: any) {
+    // this.load.image('coin', coinImage)
     this.load.image('toong', image)
     this.load.image('toongBackground', background)
   }
@@ -121,14 +146,19 @@ export class Main extends Phaser.Scene {
   }
 
   update(this: any, iter: number) {
-    {
-      iter = 0
-      this.tilePositionX = Math.cos(-iter) * 8
-      this.tilePositionY = Math.sin(-iter) * 8
-      iter += 0.2
-    }
+    this.tilePositionX = Math.cos(-this.count) * 8
+    this.tilePositionY = Math.sin(-this.count) * 8
+    this.count += 0.2
 
-    this.count += 0.1
+    // for (let i = 0; i < this.coins.length; i++) {
+    //   let coin = this.coins[i]
+    //   if (
+    //     Math.abs(coin.x - this.x) < this.viewportSize[0] / 2 &&
+    //     Math.abs(coin.y - this.y) < this.viewportSize[1] / 2
+    //   ) {
+    //     this.visibleCoins[i] = coin
+    //   }
+    // }
 
     // const points = this.rope.points
 
